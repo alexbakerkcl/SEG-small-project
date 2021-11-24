@@ -2,10 +2,9 @@
 
 ## Team members
 The members of the team are:
-- *Enter member 1*
-- *Enter member 2*
-- *Enter member 3*
-- *Enter member 4*
+- Alexander Baker
+- Dylan Barker
+- Zilin Chen
 *Add any further information about the team here, such as absent team members.*
 
 ## Project structure
