@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect,render
 from .forms import LogInForm,SignupForm
 
 def home(request):
@@ -14,3 +14,7 @@ def signup(request):
 def login(request):
     form = LogInForm()
     return render(request, 'login.html',{'form':form})
+
+def logout(request):
+    logout(request)
+    return redirect(request, 'home')
