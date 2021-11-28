@@ -1,0 +1,12 @@
+<html>
+<head>
+  <title>Login - Chess Management</title>
+</head>
+  <body>
+    <h1>Sign In</h1>
+  </form action="{% url 'login' %}" method="post">
+     {% csrf_token %}
+     {{ form.as_p }}
+     <input type="submit" value="Sign In">
+ </body>
+</html>
