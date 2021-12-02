@@ -32,3 +32,40 @@ class UserModelTestCase(TestCase):
             bio = 'I am from America and I enjoy playing Chess'
 
         )
+
+    def test_username_cannot_be_blank(self):
+        self.user.username = ''
+        self._assert_user_is_invalid()
+
+    def test_username_can_be_40_characters_long(self):
+        self.user.username = '@' + 'x' * 39
+        self._assert_user_is_valid()
+
+    def test_username_cannot_be_over_40_characters_long(self):
+        self.user.username = '@' + 'x' * 40
+        self._assert_user_is_invalid()
+
+    def test_username_must_be_unique(self):
+        second_user = self._create_second_user()
+        self.user.username = second_user.username
+        self._assert_user_is_invalid()
+
+    def test_username_must_start_with_at_symbol(self):
+        self.user.username = 'johndoe'
+        self._assert_user_is_invalid()
+
+    def test_username_must_contain_at_least_3_alphanumericals_after_at(self):
+        self.user.username = '@jo'
+        self._assert_user_is_invalid()
+
+    def test_username_must_contain_only_alphanumericals_after_at(self):
+        self.user.username = '@john!doe'
+        self._assert_user_is_invalid()
+
+    def test_username_may_contain_numbers(self):
+        self.user.username = '@j0hndoe2'
+        self._assert_user_is_valid()
+
+    def test_username_may_contain_only_one_at(self):
+        self.user.username = '@@johndoe'
+        self._assert_user_is_invalid()
