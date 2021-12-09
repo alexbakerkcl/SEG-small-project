@@ -1,11 +1,11 @@
-# Team *enter team name here* Small Group project
+# Team Hedgehog Small Group project
 
 ## Team members
 The members of the team are:
-- *Enter member 1*
-- *Enter member 2*
-- *Enter member 3*
-- *Enter member 4*
+- Alexander Baker
+- Dylan Barker
+- Zilin Chen
+
 *Add any further information about the team here, such as absent team members.*
 
 ## Project structure
