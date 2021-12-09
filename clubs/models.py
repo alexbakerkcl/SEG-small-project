@@ -11,7 +11,6 @@ class User(AbstractUser):
            message= 'Username must correct'
         )]
     )
- bio = models.TextField(max_length=520,blank=False)
  LEVELS = (
    ('N', 'New to Chess'),
    ('B', 'Beginner'),
@@ -20,4 +19,5 @@ class User(AbstractUser):
    ('E', 'Expert'),
  )
  experience = models.CharField(max_length=1, choices=LEVELS, default='N')
- statement = models.TextField(max_length=520, blank=False)
+ statement = models.TextField(max_length=520, blank=True)
+ bio = models.TextField(max_length=520,blank=True)
