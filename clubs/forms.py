@@ -9,7 +9,7 @@ class LogInForm(forms.Form):
 class SignupForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name','last_name','username','email','bio', 'statement', 'experience']
+        fields = ['first_name','last_name','username','email','bio', 'statement']
 
     new_password = forms.CharField(
         label="Password",
@@ -33,13 +33,14 @@ class SignupForm(forms.ModelForm):
 
     def save(self):
         super().save(commit=False)
-        return User.objects.create_user(
+        user = User.objects.create_user(
             self.cleaned_data.get('username'),
             first_name=self.cleaned_data.get('first_name'),
             last_name=self.cleaned_data.get('last_name'),
             email=self.cleaned_data.get('email'),
             bio=self.cleaned_data.get('bio'),
             password=self.cleaned_data.get('new_password'),
-            experience=self.cleaned_data.get('experience'),
-            personal=self.cleaned_data.get('personal'),
+            #experience=self.cleaned_data.get('experience'),
+
         )
+        return user

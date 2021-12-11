@@ -6,7 +6,7 @@ class UserModelTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             '@johndoe',
-            experience = 'N',
+            #experience = 'N',
             statement = 'I am new to Chess',
             bio='My name is John and I would like to practise and improve my chess skills.'
         )
@@ -27,7 +27,7 @@ class UserModelTestCase(TestCase):
     def _create_second_user(self):
         user = User.objects.create_user(
             '@alicesmith',
-            experience='A',
+        #    experience='A',
             statement = 'I play Chess often',
             bio = 'I am from America and I enjoy playing Chess'
 

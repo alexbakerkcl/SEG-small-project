@@ -18,6 +18,7 @@ class User(AbstractUser):
    ('A', 'Advanced'),
    ('E', 'Expert'),
  )
- experience = models.CharField(max_length=1, choices=LEVELS, default='N')
+
  statement = models.TextField(max_length=520, blank=True)
  bio = models.TextField(max_length=520,blank=True)
+ #experience = models.CharField(max_length=1, choices=LEVELS, default='N')
