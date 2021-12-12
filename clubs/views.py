@@ -20,7 +20,7 @@ def signup(request):
 
 def login(request):
     form = LogInForm()
-    return render(request, 'login.html')
+    return render(request, 'login.html',{'form':form})
 
 def logout(request):
     logout(request)
