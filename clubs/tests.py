@@ -30,7 +30,6 @@ class UserModelTestCase(TestCase):
             experience='A',
             statement = 'I play Chess often',
             bio = 'I am from America and I enjoy playing Chess'
-
         )
 
     def test_username_cannot_be_blank(self):
@@ -89,4 +88,38 @@ class UserModelTestCase(TestCase):
 
     def test_valid_experience_leveln(self):
         self.user.experience = 'N'
+        self._assert_user_is_valid()
+
+
+    def test_statement_can_be_blank(self):
+        self.user.statement = ''
+        self._assert_user_is_valid()
+
+    def test_statement_can_be_520_characters_long(self):
+        self.user.statement = 'x' * 520
+        self._assert_user_is_valid()
+
+    def test_statement_cannot_be_over_520_characters_long(self):
+        self.user.statement = 'x' * 521
+        self._assert_user_is_invalid()
+
+    def test_statement_may_contain_numbers(self):
+        self.user.statement = 'statement 2'
+        self._assert_user_is_valid()
+
+
+    def test_bio_can_be_blank(self):
+        self.user.bio = ''
+        self._assert_user_is_valid()
+
+    def test_bio_can_be_520_characters_long(self):
+        self.user.bio = 'x' * 520
+        self._assert_user_is_valid()
+
+    def test_bio_cannot_be_over_520_characters_long(self):
+        self.user.bio = 'x' * 521
+        self._assert_user_is_invalid()
+
+    def test_bio_may_contain_numbers(self):
+        self.user.bio = 'bio 2'
         self._assert_user_is_valid()
