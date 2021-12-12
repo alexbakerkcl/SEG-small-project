@@ -8,7 +8,7 @@ def feed(request):
 def home(request):
     return render(request, 'home.html')
 
-def loginnnn(request):
+def user_login(request):
      if request.method == 'POST':
         form = LogInForm(request.POST)
         if form.is_valid():
