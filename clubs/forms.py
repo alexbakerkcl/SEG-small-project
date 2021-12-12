@@ -3,8 +3,13 @@ from django.core.validators import RegexValidator
 from .models import User
 
 class LogInForm(forms.Form):
-    email = forms.EmailField(label="Email", max_length=50)
-    password = forms.CharField(label = "Password",widget=forms.PasswordInput())
+    username = forms.CharField(label='Usernam')
+    password = forms.CharField(label='Password', widget = forms.PasswordInput())
+
+
+#class LogInForm(forms.Form):
+#    email = forms.EmailField(label="Email", max_length=50)
+#    password = forms.CharField(label = "Password",widget=forms.PasswordInput())
 
 class SignupForm(forms.ModelForm):
     class Meta:
