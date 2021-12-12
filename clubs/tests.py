@@ -37,12 +37,12 @@ class UserModelTestCase(TestCase):
         self.user.username = ''
         self._assert_user_is_invalid()
 
-    def test_username_can_be_40_characters_long(self):
-        self.user.username = '@' + 'x' * 39
+    def test_username_can_be_30_characters_long(self):
+        self.user.username = '@' + 'x' * 29
         self._assert_user_is_valid()
 
-    def test_username_cannot_be_over_40_characters_long(self):
-        self.user.username = '@' + 'x' * 40
+    def test_username_cannot_be_over_30_characters_long(self):
+        self.user.username = '@' + 'x' * 30
         self._assert_user_is_invalid()
 
     def test_username_must_be_unique(self):
@@ -69,3 +69,24 @@ class UserModelTestCase(TestCase):
     def test_username_may_contain_only_one_at(self):
         self.user.username = '@@johndoe'
         self._assert_user_is_invalid()
+
+
+    def test_valid_experience_levele(self):
+        self.user.experience = 'E'
+        self._assert_user_is_valid()
+
+    def test_valid_experience_levela(self):
+        self.user.experience = 'A'
+        self._assert_user_is_valid()
+
+    def test_valid_experience_leveli(self):
+        self.user.experience = 'I'
+        self._assert_user_is_valid()
+
+    def test_valid_experience_levelb(self):
+        self.user.experience = 'B'
+        self._assert_user_is_valid()
+
+    def test_valid_experience_leveln(self):
+        self.user.experience = 'N'
+        self._assert_user_is_valid()
