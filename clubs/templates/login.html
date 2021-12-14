@@ -3,10 +3,14 @@
   <title>Login - Chess Management</title>
 </head>
   <body>
-    <h1>Sign In</h1>
-  </form action="{% url 'login' %}" method="post">
+    <h1>Log In</h1>
+    {% for message in messages%}
+     <p><b>{{ message }}</b></p>
+    {% endfor %}
+  <form action="{% url 'login' %}" method="post">
      {% csrf_token %}
      {{ form.as_p }}
-     <input type="submit" value="Sign In">
+     <input type="submit" value="Log In">
+  </form>
  </body>
 </html>

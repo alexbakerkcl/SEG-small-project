@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect,render
 from .forms import LogInForm,SignupForm
 from django.contrib.auth import authenticate,login
@@ -18,6 +19,8 @@ def user_login(request):
              if user is not None:
                   login(request, user)
                   return redirect('feed')
+        # Add error messages here
+        messages.add_message(request, messages.ERROR, "The password is invaild")
      form = LogInForm()
      return render(request, 'login.html', {'form': form})
 
