@@ -5,3 +5,7 @@ class Command(BaseCommand):
 
         def handle(self, *args, **options):
             print("TODO: The database unseeder will be added here...")
+
+
+            for i in range(100):
+                User.objects.remove_user()
