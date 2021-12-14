@@ -23,5 +23,5 @@ urlpatterns = [
     path('feed/', views.feed, name = 'feed'),
     path('signup/', views.signup, name ='signup'),
     path('login/', views.user_login, name ='login'),
-    path('logout/', views.logout, name ='logout'),
+    path('log_out/', views.log_out, name ='log_out'),
 ]

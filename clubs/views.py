@@ -1,13 +1,10 @@
 from django.contrib import messages
 from django.shortcuts import redirect,render
 from .forms import LogInForm,SignupForm
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 
 def feed(request):
     return render(request, 'feed.html')
-
-def home(request):
-    return render(request, 'home.html')
 
 def user_login(request):
      if request.method == 'POST':
@@ -24,6 +21,13 @@ def user_login(request):
      form = LogInForm()
      return render(request, 'login.html', {'form': form})
 
+def log_out(request):
+   logout(request)
+   return redirect('home')
+
+def home(request):
+    return render(request, 'home.html')
+
 def signup(request):
     if request.method =='POST':
         form = SignupForm(request.POST)
@@ -34,9 +38,3 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request,'signup.html',{'form':form})
-
-
-
-def logout(request):
-
-    return redirect(request, 'home')
