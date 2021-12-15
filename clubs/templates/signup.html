@@ -1,16 +1,35 @@
 {% extends 'base.html' %}
 {% block body%}
-<html>
-<head>
-  <title>Sign up - Chess Management</title>
-</head>
-  <body>
-    <h1>Sign Up</h1>
-    <form action="{% url 'signup' %}" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Sign Up">
-    </form>
- </body>
-</html>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Sign Up</h1>
+        <form action="{% url 'signup' %}" method="post">
+          {% csrf_token %}
+          {% load widget_tweaks %}
+          {% for field in form %}
+             <div class="mb-3">
+                {{ field.label_tag}}
+                {% if form.is_bound %}
+                  {% if field.errors %}
+                      {% render_field field class="form-control is-valid" %}
+                  {% else %}
+                      {% render_field field class="form-control is-valid" %}
+                  {% endif %}
+                {% else %}
+                     {% render_field field class="form-control" %}
+                {% endif %}
+                <div class="vaild-feedback">
+                  Looks good!
+                </div>
+                <div class="invaild-feedback">
+                  {{ field.errors}}
+                </div>
+         </div>
+       {% endfor %}
+       <input type="submit" value="Sign Up" class="btn btn-primary">
+     </form>
+   </div>
+  </div>
+</div>
 {% endblock %}
