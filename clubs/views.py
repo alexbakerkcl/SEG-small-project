@@ -1,10 +1,14 @@
 from django.contrib import messages
 from django.shortcuts import redirect,render
-from .forms import LogInForm,SignupForm
+from .forms import LogInForm,SignupForm,PostForm
 from django.contrib.auth import authenticate,login,logout
+from .models import Post, User
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseForbidden
 
 def feed(request):
-    return render(request, 'feed.html')
+    form = PostForm()
+    return render(request, 'feed.html',{'form': form})
 
 def user_login(request):
      if request.method == 'POST':
@@ -38,3 +42,31 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request,'signup.html',{'form':form})
+
+def new_post(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            current_user = request.user
+            form = PostForm(request.POST)
+            if form.is_valid():
+                text = form.cleaned_data.get('text')
+                post = Post.objects.create(author=current_user, text=text)
+                return redirect('feed')
+            else:
+                return render(request, 'feed.html', {'form': form})
+        else:
+            return redirect('login')
+    else:
+        return HttpResponseForbidden()
+
+def user_list(request):
+    users = User.objects.all()
+    return render(request, 'user_list.html', {'users': users})
+
+def show_user(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except ObjectDoesNotExist:
+        return redirect('user_list')
+    else:
+        return render(request, 'show_user.html', {'user': user})
