@@ -1,8 +1,6 @@
-<html>
-<head>
-  <title>Login - Chess Management</title>
-</head>
-  <body>
+{% extends 'base.html' %}
+{% block body%}
+
     <h1>Log In</h1>
     {% for message in messages%}
      <p><b>{{ message }}</b></p>
@@ -12,5 +10,5 @@
      {{ form.as_p }}
      <input type="submit" value="Log In">
   </form>
- </body>
-</html>
+
+{% endblock %}
