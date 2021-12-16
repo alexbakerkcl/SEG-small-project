@@ -3,13 +3,13 @@ from clubs.models import User
 from django.core.exceptions import ValidationError
 
 class UserModelTestCase(TestCase):
+
+    fixtures = ['clubs/test/fixtures/default_user.json',
+                'clubs/test/fixtures/other_users.json'
+    ]
+
     def setUp(self):
-        self.user = User.objects.create_user(
-            '@johndoe',
-        #    experience = 'N',
-            statement = 'I am new to Chess',
-            bio='My name is John and I would like to practise and improve my chess skills.'
-        )
+        self.user = User.objects.get(username = '@johndoe')
 
     def test_valid_user(self):
         self._assert_user_is_valid()
@@ -24,13 +24,6 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             self.user.full_clean()
 
-    def _create_second_user(self):
-        user = User.objects.create_user(
-            '@alicesmith',
-        #    experience='A',
-            statement = 'I play Chess often',
-            bio = 'I am from America and I enjoy playing Chess'
-        )
 
     def test_username_cannot_be_blank(self):
         self.user.username = ''
@@ -45,7 +38,7 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_invalid()
 
     def test_username_must_be_unique(self):
-        second_user = self._create_second_user()
+        second_user = User.objects.get(username = '@janedoe')
         self.user.username = second_user.username
         self._assert_user_is_invalid()
 
