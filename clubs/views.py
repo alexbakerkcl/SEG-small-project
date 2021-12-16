@@ -2,13 +2,29 @@ from django.contrib import messages
 from django.shortcuts import redirect,render
 from .forms import LogInForm,SignupForm,PostForm
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from .models import Post, User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseForbidden
 
+@login_required
 def feed(request):
     form = PostForm()
-    return render(request, 'feed.html',{'form': form})
+    current_user = request.user
+    authors = list(current_user.followees.all()) + [current_user]
+    posts = Post.objects.filter(author__in=authors)
+    return render(request, 'feed.html', {'form': form, 'user': current_user, 'posts': posts})
+
+@login_required
+def follow_toggle(request, user_id):
+    current_user = request.user
+    try:
+        followee = User.objects.get(id=user_id)
+        current_user.toggle_follow(followee)
+    except ObjectDoesNotExist:
+        return redirect('user_list')
+    else:
+        return redirect('show_user', user_id=user_id)
 
 def user_login(request):
      if request.method == 'POST':
@@ -19,11 +35,12 @@ def user_login(request):
              user = authenticate(username=username, password=password)
              if user is not None:
                   login(request, user)
-                  return redirect('feed')
-        # Add error messages here
+                  redirect_url = request.POST.get('next') or 'feed'
+                  return redirect(redirect_url)
         messages.add_message(request, messages.ERROR, "The password is invaild")
      form = LogInForm()
-     return render(request, 'login.html', {'form': form})
+     next = request.GET.get('next') or ''
+     return render(request, 'login.html', {'form': form, 'next': next})
 
 def log_out(request):
    logout(request)
@@ -59,6 +76,7 @@ def new_post(request):
     else:
         return HttpResponseForbidden()
 
+@login_required
 def user_list(request):
     users = User.objects.all()
     return render(request, 'user_list.html', {'users': users})
@@ -66,7 +84,15 @@ def user_list(request):
 def show_user(request, user_id):
     try:
         user = User.objects.get(id=user_id)
+        posts = Post.objects.filter(author=user)
+        following = request.user.is_following(user)
+        followable = (request.user != user)
     except ObjectDoesNotExist:
         return redirect('user_list')
     else:
-        return render(request, 'show_user.html', {'user': user})
+        return render(request, 'show_user.html',
+            {'user': user,
+             'posts': posts,
+             'following': following,
+             'followable': followable}
+        )

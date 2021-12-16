@@ -3,7 +3,7 @@ from django.test import TestCase
 from clubs.forms import LogInForm
 from django.urls import reverse
 from clubs.models import User
-from clubs.test.helpers import LogInTester
+from clubs.test.helpers import LogInTester,reverse_with_next
 from django.contrib import messages
 
 class LogInViewTestCase(TestCase, LogInTester):
@@ -23,10 +23,26 @@ class LogInViewTestCase(TestCase, LogInTester):
          self.assertEqual(response.status_code, 200)
          self.assertTemplateUsed(response,'login.html')
          form = response.context['form']
+         next = response.context['next']
          self.assertTrue(isinstance(form,LogInForm))
          self.assertFalse(form.is_bound)
-        # messages_list = list(response.context['messages'])
-        # self.assertTrue(len(messages_list),0)
+         self.assertFalse(next)
+         messages_list = list(response.context['messages'])
+         self.assertEqual(len(messages_list),0)
+
+     def test_get_log_in_with_redirect(self):
+        destination_url = reverse('user_list')
+        self.url = reverse_with_next('login', destination_url)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+        form = response.context['form']
+        next = response.context['next']
+        self.assertTrue(isinstance(form, LogInForm))
+        self.assertFalse(form.is_bound)
+        self.assertEqual(next, destination_url)
+        messages_list = list(response.context['messages'])
+        self.assertEqual(len(messages_list), 0)
 
      def test_unsuccesful_log_in(self):
         form_input = { 'username': '@johndoe' , 'password' : 'WrongPassword123'}
@@ -34,6 +50,7 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,'login.html')
         form = response.context['form']
+        next = response.context['next']
         self.assertTrue(isinstance(form,LogInForm))
         self.assertFalse(form.is_bound)
         self.assertFalse(self._is_logged_in())
@@ -48,8 +65,18 @@ class LogInViewTestCase(TestCase, LogInTester):
          response_url = reverse('feed')
          self.assertRedirects(response, response_url, status_code = 302, target_status_code = 200)
          self.assertTemplateUsed(response,'feed.html')
-        # messages_list = list(response.context['messages'])
-        # self.assertTrue(len(messages_list),0)
+         messages_list = list(response.context['messages'])
+         self.assertEqual(len(messages_list),0)
+
+     def test_succesful_log_in_with_redirect(self):
+         redirect_url = reverse('user_list')
+         form_input = { 'username': '@johndoe', 'password': 'Password123', 'next': redirect_url }
+         response = self.client.post(self.url, form_input, follow=True)
+         self.assertTrue(self._is_logged_in())
+         self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+         self.assertTemplateUsed(response, 'user_list.html')
+         messages_list = list(response.context['messages'])
+         self.assertEqual(len(messages_list), 0)
 
      def test_vaild_log_in_by_inactive_user(self):
           self.user.is_active = False

@@ -22,6 +22,10 @@ class User(AbstractUser):
 
  statement = models.TextField(max_length=520, blank=True)
  bio = models.TextField(max_length=520,blank=True)
+ followers = models.ManyToManyField(
+        'self', symmetrical=False, related_name='followees'
+ )
+
  #experience = models.CharField(max_length=1, choices=LEVELS, default='N')
 
  def full_name(self):
@@ -33,9 +37,39 @@ class User(AbstractUser):
         gravatar_url = gravatar_object.get_image(size=size, default='mp')
         return gravatar_url
 
-def mini_gravatar(self):
+ def mini_gravatar(self):
         """Return a URL to a miniature version of the user's gravatar."""
         return self.gravatar(size=60)
+
+ def toggle_follow(self, followee):
+        """Toggles whether self follows the given followee."""
+
+        if followee==self:
+            return
+        if self.is_following(followee):
+            self._unfollow(followee)
+        else:
+            self._follow(followee)
+
+ def _follow(self, user):
+        user.followers.add(self)
+
+ def _unfollow(self, user):
+        user.followers.remove(self)
+
+ def is_following(self, user):
+    return user in self.followees.all()
+    #"""Returns whether self follows the given user."""
+
+
+ def follower_count(self):
+        """Returns the number of followers of self."""
+
+        return self.followers.count()
+ def followee_count(self):
+        """Returns the number of followees of self."""
+
+        return self.followees.count()
 
 
 class Post(models.Model):

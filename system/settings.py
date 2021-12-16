@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clubs',
     'widget_tweaks',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #User model for clubs
 AUTH_USER_MODEL = 'clubs.User'
+
+#Log in url for redriecting users from login protector views
+LOGIN_URL = 'login'
 
 # Message level tags should be Bootstrap terms
 MESSAGE_TAGS = {

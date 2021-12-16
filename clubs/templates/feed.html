@@ -3,8 +3,8 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-lg-6 col-xl-4">
-      <h3>New post</h3>
-        <form action="{% url 'new_post' %}" method="post">
+      {% include 'partials/user_profile.html' with following=False followable=False %}
+      <form action="{% url 'new_post' %}" method="post">
         {% csrf_token %}
         {% include 'partials/bootstrap_form.html' with form=form %}
         <button type="submit" class="btn btn-primary">Cluck</button>
@@ -12,7 +12,7 @@
     </div>
     <div class="col-xs-12 col-lg-6 col-xl-8">
       <h1>Feed</h1>
-      <p><b>UNDER CONSTRUCTION</b>: This page will contain a user-specific feed of clucks.</p>
+      {% include 'partials/posts_as_table.html' with posts=posts %}
     </div>
   </div>
 </div>

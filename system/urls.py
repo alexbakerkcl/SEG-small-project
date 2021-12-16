@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('feed/', views.feed, name = 'feed'),
+    path('follow_toggle/<int:user_id>', views.follow_toggle, name='follow_toggle'),
     path('signup/', views.signup, name ='signup'),
     path('login/', views.user_login, name ='login'),
     path('log_out/', views.log_out, name ='log_out'),
