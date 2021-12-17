@@ -1,7 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
-from faker import Faker
+import random
 
 from clubs.models import Club, User
+from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
+from faker import Faker
 
 
 class Command(BaseCommand):
@@ -18,22 +20,30 @@ class Command(BaseCommand):
             print(f"Seeding user {user_count}", end="\r")
             try:
                 self._create_user()
-            except (django.db.utils.IntegrityError):
+            except IntegrityError:
                 continue
             user_count += 1
         print("User seeding complete")
+
+    @staticmethod
+    def _email(first_name, last_name):
+        return f"{first_name}.{last_name}@example.org"
 
     def _create_user(self):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
         email = self._email(first_name, last_name)
-        username = self._username(first_name, last_name)
+        username = email
+        experience = random.choice("NBIAE")
+        statement = self.faker.text(max_nb_chars=520)
         bio = self.faker.text(max_nb_chars=520)
         User.objects.create_user(
-            username,
+            username=username,
             first_name=first_name,
             last_name=last_name,
             email=email,
+            experience=experience,
+            statement=statement,
             password=Command.PASSWORD,
             bio=bio,
         )
@@ -65,38 +75,30 @@ class Command(BaseCommand):
             bio="Hi",
         )
 
-        self.club = Club.objects.create(
-            owner=User.objects.get(username="alex"),
-            name="Kerbal Chess Club",
-            location="Qidong",
-            description="one.",
-        )
+        # self.club = Club.objects.create(
+        #     owner=User.objects.get(username="alex"),
+        #     name="Kerbal Chess Club",
+        #     location="Qidong",
+        #     description="one.",
+        # )
 
-        self.club = Club.objects.create(
-            owner=User.objects.get(username="alex"),
-            name="Chess Club first",
-            location="HuiLong",
-            description="first.",
-        )
+        # self.club = Club.objects.create(
+        #     owner=User.objects.get(username="alex"),
+        #     name="Chess Club first",
+        #     location="HuiLong",
+        #     description="first.",
+        # )
 
-        self.club = Club.objects.create(
-            owner=User.objects.get(username="Valentina"),
-            name="Chess Club secound",
-            location="LvSi",
-            description="secound.",
-        )
+        # self.club = Club.objects.create(
+        #     owner=User.objects.get(username="Valentina"),
+        #     name="Chess Club secound",
+        #     location="LvSi",
+        #     description="secound.",
+        # )
 
-        self.club = Club.objects.create(
-            owner=User.objects.get(username="alex"),
-            name="Chess Club third",
-            location="DaXing",
-            description="third.",
-        )
-
-    def _email(self, first_name, last_name):
-        email = f"{first_name}.{last_name}@example.org"
-        return email
-
-    def _username(self, first_name, last_name):
-        username = f"@{first_name}{last_name}"
-        return username
+        # self.club = Club.objects.create(
+        #     owner=User.objects.get(username="alex"),
+        #     name="Chess Club third",
+        #     location="DaXing",
+        #     description="third.",
+        # )
