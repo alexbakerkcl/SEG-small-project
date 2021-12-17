@@ -24,3 +24,5 @@ toml==0.10.2
 tomli==1.2.2
 typing_extensions==4.0.1
 wrapt==1.13.3
+gunicorn
+django-heroku

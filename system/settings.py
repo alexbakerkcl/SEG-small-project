@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as message_constants
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-2@dv!r%*_^tovdo*cf0=9hxgl=xq=eer%8am&f)5ah8sz(q&^9'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -139,3 +142,6 @@ MESSAGE_TAGS = {
      message_constants.DEBUG:'dark',
      message_constants.ERROR:'danger',
 }
+
+# Activate django_heroku
+django_heroku.settings(locals())
