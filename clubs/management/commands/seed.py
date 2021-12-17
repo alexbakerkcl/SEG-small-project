@@ -8,14 +8,15 @@ from faker import Faker
 
 class Command(BaseCommand):
     PASSWORD = "Password123"
-    USER_COUNT = 100
+    USER_COUNT = 20
 
     def __init__(self):
         super().__init__()
         self.faker = Faker("en_GB")
 
     def handle(self, *args, **options):
-        user_count = 0
+        self._create_bespoke_users()
+        user_count = 3
         while user_count < Command.USER_COUNT:
             print(f"Seeding user {user_count}", end="\r")
             try:
@@ -33,12 +34,11 @@ class Command(BaseCommand):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
         email = self._email(first_name, last_name)
-        username = email
         experience = random.choice("NBIAE")
         statement = self.faker.text(max_nb_chars=520)
         bio = self.faker.text(max_nb_chars=520)
         User.objects.create_user(
-            username=username,
+            username=email,
             first_name=first_name,
             last_name=last_name,
             email=email,
@@ -47,34 +47,41 @@ class Command(BaseCommand):
             password=Command.PASSWORD,
             bio=bio,
         )
-
+    def _create_bespoke_users(self):
         User.objects.create(
-            username="Jebediah",
+            username="jeb@example.org",
             first_name="Jebediah",
             last_name="Kerman",
             email="jeb@example.org",
             password=Command.PASSWORD,
-            bio="Hi",
+            experience=random.choice("NBIAE"),
+            bio=self.faker.text(max_nb_chars=520),
+            statement=self.faker.text(max_nb_chars=520),
         )
 
         User.objects.create(
-            username="Valentina",
+            username="val@example.org",
             first_name="Valentina",
             last_name="Kerman",
             email="val@example.org",
             password=Command.PASSWORD,
-            bio="Hi",
+            experience=random.choice("NBIAE"),
+            bio=self.faker.text(max_nb_chars=520),
+            statement=self.faker.text(max_nb_chars=520),
         )
 
         User.objects.create(
-            username="Billie",
+            username="billie@example.org",
             first_name="Billie",
             last_name="Kerman",
             email="billie@example.org",
             password=Command.PASSWORD,
-            bio="Hi",
+            experience=random.choice("NBIAE"),
+            bio=self.faker.text(max_nb_chars=520),
+            statement=self.faker.text(max_nb_chars=520),
         )
 
+    # def _create_bespoke_user(self):
         # self.club = Club.objects.create(
         #     owner=User.objects.get(username="alex"),
         #     name="Kerbal Chess Club",
