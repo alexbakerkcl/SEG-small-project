@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
-from clubs.models import User, Club
+
+from clubs.models import Club, User
+
 
 class Command(BaseCommand):
     PASSWORD = "Password123"
@@ -8,18 +10,18 @@ class Command(BaseCommand):
 
     def __init__(self):
         super().__init__()
-        self.faker = Faker('en_GB')
+        self.faker = Faker("en_GB")
 
     def handle(self, *args, **options):
         user_count = 0
         while user_count < Command.USER_COUNT:
-            print(f'Seeding user {user_count}',  end='\r')
+            print(f"Seeding user {user_count}", end="\r")
             try:
                 self._create_user()
             except (django.db.utils.IntegrityError):
                 continue
             user_count += 1
-        print('User seeding complete')
+        print("User seeding complete")
 
     def _create_user(self):
         first_name = self.faker.first_name()
@@ -33,68 +35,68 @@ class Command(BaseCommand):
             last_name=last_name,
             email=email,
             password=Command.PASSWORD,
-            bio=bio
+            bio=bio,
         )
 
         User.objects.create(
-            username = "Jebediah",
-            first_name = "Jebediah",
-            last_name = "Kerman",
-            email = "jeb@example.org",
-            password = Command.PASSWORD,
-            bio = "Hi"
+            username="Jebediah",
+            first_name="Jebediah",
+            last_name="Kerman",
+            email="jeb@example.org",
+            password=Command.PASSWORD,
+            bio="Hi",
         )
 
         User.objects.create(
-            username = "Valentina",
-            first_name = "Valentina",
-            last_name = "Kerman",
-            email = "val@example.org",
-            password = Command.PASSWORD,
-            bio = "Hi"
+            username="Valentina",
+            first_name="Valentina",
+            last_name="Kerman",
+            email="val@example.org",
+            password=Command.PASSWORD,
+            bio="Hi",
         )
 
         User.objects.create(
-            username = "Billie",
-            first_name = "Billie",
-            last_name = "Kerman",
-            email = "billie@example.org",
-            password = Command.PASSWORD,
-            bio = "Hi"
+            username="Billie",
+            first_name="Billie",
+            last_name="Kerman",
+            email="billie@example.org",
+            password=Command.PASSWORD,
+            bio="Hi",
         )
 
         self.club = Club.objects.create(
-            owner = User.objects.get(username = "alex"),
-            name = 'Kerbal Chess Club',
-            location = 'Qidong',
-            description = 'one.',
+            owner=User.objects.get(username="alex"),
+            name="Kerbal Chess Club",
+            location="Qidong",
+            description="one.",
         )
 
         self.club = Club.objects.create(
-            owner = User.objects.get(username = "alex"),
-            name = 'Chess Club first',
-            location = 'HuiLong',
-            description = 'first.',
+            owner=User.objects.get(username="alex"),
+            name="Chess Club first",
+            location="HuiLong",
+            description="first.",
         )
 
         self.club = Club.objects.create(
-            owner = User.objects.get(username = "Valentina"),
-            name = 'Chess Club secound',
-            location = 'LvSi',
-            description = 'secound.',
+            owner=User.objects.get(username="Valentina"),
+            name="Chess Club secound",
+            location="LvSi",
+            description="secound.",
         )
 
         self.club = Club.objects.create(
-            owner = User.objects.get(username = "alex"),
-            name = 'Chess Club third',
-            location = 'DaXing',
-            description = 'third.',
+            owner=User.objects.get(username="alex"),
+            name="Chess Club third",
+            location="DaXing",
+            description="third.",
         )
 
     def _email(self, first_name, last_name):
-        email = f'{first_name}.{last_name}@example.org'
+        email = f"{first_name}.{last_name}@example.org"
         return email
 
     def _username(self, first_name, last_name):
-        username = f'@{first_name}{last_name}'
+        username = f"@{first_name}{last_name}"
         return username
