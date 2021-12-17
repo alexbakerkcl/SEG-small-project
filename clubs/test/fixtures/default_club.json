@@ -1,12 +1,12 @@
 [
   {
-    "model": "clubs.club",
-    "pk": 1,
-    "fields": {
-      "owner":1,
-      "name":"Alone",
-      "location":Qidong,
-      "description":"Mission impossible"
-    }
-  }
-]
+    model: "clubs.club",
+    pk: 1,
+    fields: {
+      owner: 1,
+      name: "Alone",
+      location: Qidong,
+      description: "Mission impossible",
+    },
+  },
+];
