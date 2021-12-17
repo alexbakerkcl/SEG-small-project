@@ -3,16 +3,20 @@
 ## Team members
 The members of the team are:
 - Alexander Baker
+- Chenhui Wang
 - Dylan Barker
+- Joshua Bebbington
 - Zilin Chen
 
-*Add any further information about the team here, such as absent team members.*
+Absent team members:
+- Chenhui Wang
+- Joshua Bebbington
 
 ## Project structure
 The project is called `system`.  It currently consists of a single app `clubs`.
 
 ## Deployed version of the application
-The deployed version of the application can be found at [URL](URL).
+The deployed version of the application can be found at [URL](https://safe-hollows-70921.herokuapp.com/).
 
 ## Installation instructions
 To install the software and use it in your local development environment, you must first set up and activate a local development environment.  From the root of the project:
@@ -45,9 +49,5 @@ Run all tests with:
 $ python3 manage.py test
 ```
 
-*The above instructions should work in your version of the application.  If there are deviations, declare those here in bold.  Otherwise, remove this line.*
-
 ## Sources
 The packages used by this application are specified in `requirements.txt`
-
-*Declare are other sources here.*
