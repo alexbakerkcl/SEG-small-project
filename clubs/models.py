@@ -9,7 +9,7 @@ class User(AbstractUser):
        unique=True,
        validators=[RegexValidator(
            regex=r'^@\w{3,}$',
-           message= 'Username must correct'
+           message= 'Username must contain more than three character'
         )]
     )
  LEVELS = (
@@ -83,3 +83,22 @@ class Post(models.Model):
         """Model options."""
 
         ordering = ['-created_at']
+
+
+class Club(models.Model):
+    owner = models.ForeignKey(User, on_delete = models.CASCADE)
+    name = models.CharField(
+          max_length=30,
+          unique=True,
+          validators=[RegexValidator(
+              regex=r'^@\w{3,}$',
+              message= 'clubname must contain more than three character'
+           )]
+       )
+    location = models.CharField(max_length = 50)
+    description = models.CharField(max_length = 50)
+
+class ClubMember(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    club = models.ForeignKey(Club, on_delete = models.CASCADE)
+    level = models.CharField(max_length = 1, choices = [('A','Accept'),('D','Decline'),('P','Pending')], default = 'p')

@@ -3,7 +3,7 @@ from django.shortcuts import redirect,render
 from .forms import LogInForm,SignupForm,PostForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from .models import Post, User
+from .models import Post, User , Club
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseForbidden
 
@@ -96,3 +96,7 @@ def show_user(request, user_id):
              'following': following,
              'followable': followable}
         )
+
+def club_list(request):
+    clubs = club.objects.all()
+    return render(request, 'club_list.html', {'clubs': clubs})
